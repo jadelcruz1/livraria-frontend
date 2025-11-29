@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>Deletar Livros</h2>
+
+  <p *ngIf="carregando">Carregando livros...</p>
+  <p *ngIf="erro" class="erro">{{ erro }}</p>
+
+  <table *ngIf="livros.length > 0">
+    <thead>
+      <tr>
+        <th>Selecionar</th>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Autor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let livro of livros">
+        <td>
+          <input type="radio" name="livroSelecionado" [value]="livro.id" [(ngModel)]="livroSelecionadoId">
+        </td>
+        <td>{{ livro.id }}</td>
+        <td>{{ livro.titulo }}</td>
+        <td>{{ livro.autor }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="livros.length === 0">Nenhum livro encontrado.</p>
+
+  <button (click)="deletarLivro()" class="btn btn-danger" [disabled]="!livroSelecionadoId">Deletar Livro Selecionado</button>
+</div>
