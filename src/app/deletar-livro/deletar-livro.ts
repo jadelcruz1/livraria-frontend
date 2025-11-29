@@ -4,6 +4,7 @@ import { LivroService } from '../services/livraria--standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Livro } from '../models/livro.model';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-deletar-livro',
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
 export class DeletarLivro implements OnInit {
 
   livros: Livro[] = [];
-  livroSelecionadoId!: number;
+  // livroSelecionadoId!: number;
+  livrosSelecionados: number[] = [];
   carregando = false;
   erro: string | null = null;
 
@@ -41,7 +43,8 @@ export class DeletarLivro implements OnInit {
     });
   }
 
- deletarLivro(): void {
+  // deletar um por um
+ /*deletarLivro(): void {
   if (!this.livroSelecionadoId) {
     alert('Selecione um livro para deletar.');
     return;
@@ -63,7 +66,47 @@ export class DeletarLivro implements OnInit {
       alert('Erro ao deletar livro: ' + (err.message || err));
     }
   });
+}*/
+
+deletarLivro(): void {
+  if (this.livrosSelecionados.length === 0) {
+    alert('Selecione pelo menos um livro para deletar.');
+    return;
+  }
+
+  if (!confirm(`Tem certeza que deseja deletar ${this.livrosSelecionados.length} livro(s)?`)) return;
+
+  // Se quiser deletar **um por vez** no backend:
+  // você pode usar Promise.all ou loop
+  const deletos$ = this.livrosSelecionados.map(id => this.livroService.deletar(id));
+
+  // Executa todos os deletes em paralelo
+  forkJoin(deletos$).subscribe({
+    next: () => {
+      alert('Livro(s) deletado(s) com sucesso!');
+
+      // Remove os livros deletados da lista local
+    this.livros = this.livros.filter(
+      livro => livro.id !== undefined && !this.livrosSelecionados.includes(livro.id)
+    );
+
+      // Reseta a seleção
+      this.livrosSelecionados = [];
+    },
+    error: (err: { message: any; }) => {
+      alert('Erro ao deletar livro(s): ' + (err.message || err));
+    }
+  });
 }
+
+toggleSelecionado(id: number, event: any): void {
+  if (event.target.checked) {
+    this.livrosSelecionados.push(id);
+  } else {
+    this.livrosSelecionados = this.livrosSelecionados.filter(livroId => livroId !== id);
+  }
+}
+
 
  /* cancelar(): void {
   this.router.navigate(['/listar']);

@@ -4,28 +4,29 @@
   <p *ngIf="carregando">Carregando livros...</p>
   <p *ngIf="erro" class="erro">{{ erro }}</p>
 
-  <table *ngIf="livros.length > 0">
-    <thead>
-      <tr>
-        <th>Selecionar</th>
-        <th>ID</th>
-        <th>Título</th>
-        <th>Autor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let livro of livros">
-        <td>
-          <input type="radio" name="livroSelecionado" [value]="livro.id" [(ngModel)]="livroSelecionadoId">
-        </td>
-        <td>{{ livro.id }}</td>
-        <td>{{ livro.titulo }}</td>
-        <td>{{ livro.autor }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="livros.length === 0">Nenhum livro encontrado.</div>
 
-  <p *ngIf="livros.length === 0">Nenhum livro encontrado.</p>
+  <div class="livro-card" *ngFor="let livro of livros">
+    <label>
+      <input type="checkbox" 
+             *ngIf="livro.id !== undefined"
+             [value]="livro.id" 
+             (change)="toggleSelecionado(livro.id, $event)">
+      <span class="livro-info">
+        <strong>ID:</strong> {{ livro.id }} |
+        <strong>Título:</strong> {{ livro.titulo }} |
+        <strong>Autor:</strong> {{ livro.autor }}
+         <strong>Preço:</strong> {{ livro.preco}}
+      </span>
+    </label>
+  </div>
 
-  <button (click)="deletarLivro()" class="btn btn-danger" [disabled]="!livroSelecionadoId">Deletar Livro Selecionado</button>
+  <div class="botoes">
+    <button (click)="deletarLivro()" [disabled]="livrosSelecionados.length === 0" class="btn btn-danger">
+      Deletar Selecionados
+    </button>
+    <button (click)="deletarLivro()" class="btn btn-warning">
+      Deletar Todos
+    </button>
+  </div>
 </div>

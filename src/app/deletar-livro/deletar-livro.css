@@ -1,32 +1,29 @@
 .container {
-  max-width: 800px;
+  max-width: 600px;
   margin: auto;
   padding: 20px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-}
-
-th, td {
+.livro-card {
   border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
 }
 
-th {
-  background-color: #f2f2f2;
+.livro-info {
+  margin-left: 10px;
 }
 
-.erro {
-  color: red;
-  font-weight: bold;
+.botoes {
+  margin-top: 15px;
 }
 
 .btn {
-  padding: 8px 15px;
+  padding: 8px 12px;
+  margin-right: 10px;
   cursor: pointer;
 }
 
@@ -39,4 +36,10 @@ th {
 .btn-danger:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: black;
+  border: none;
 }
