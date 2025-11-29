@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Livro } from '../models/livro.model';
+import { LivroService } from '../services/livraria--standalone';
 
 @Component({
   selector: 'app-listar-livros',
@@ -8,6 +10,34 @@ import { Component } from '@angular/core';
   templateUrl: './listar-livros.html',
   styleUrl: './listar-livros.css',
 })
-export class ListarLivros {
+export class ListarLivros implements OnInit {
+
+  livros: Livro[] = [];
+  carregando: boolean = false;
+  erro: string = '';
+
+  // inicia o objeto .js
+   constructor(private livroService: LivroService) { }
+
+   // inicia o metodo ou o componente angular
+   ngOnInit(): void {
+    this.carregarLivros();
+  }
+
+  carregarLivros(): void {
+    this.carregando = true;
+    this.livroService.listarTodos().subscribe({
+      next: (dados) => {
+        this.livros = dados;
+        this.carregando = false;
+      },
+      error: (err) => {
+        this.erro = err.message || 'Erro ao carregar livros';
+        this.carregando = false;
+      }
+    });
+  }
+
+
 
 }

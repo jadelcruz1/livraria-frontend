@@ -1,1 +1,9 @@
-<p>listar-livros works!</p>
+<div *ngIf="carregando">Carregando livros...</div>
+<div *ngIf="erro" class="erro">{{ erro }}</div>
+
+<ul *ngIf="!carregando && !erro">
+  <li *ngFor="let livro of livros">
+    <strong>{{ livro.titulo }}</strong> - {{ livro.autor }} - R$ {{ livro.preco }} - ISBN: {{ livro.isbn }}
+  </li>
+</ul>
+
