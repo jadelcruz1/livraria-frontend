@@ -39,17 +39,17 @@ export class AdicionarLivro implements OnInit {
       }
     })*/
 
-      adicionarLivros(): void {
-  this.carregando = true;
-  this.livroService.adicionarLivros([this.novoLivro]).subscribe({
-    next: (dados) => {
-      this.sucesso = "Livro adicionado com sucesso!";
-      this.erro = '';
-      this.carregando = false;
-      // Limpa a notificação depois de 3 segundos
-      setTimeout(() => this.sucesso = '', 3000);
-      // Reseta o formulário
-      this.novoLivro = { titulo: '', autor: '', preco: 0 };
+  adicionarLivros(): void {
+    this.carregando = true;
+    this.livroService.adicionarLivros([this.novoLivro]).subscribe({
+      next: (dados) => {
+        this.sucesso = "Livro adicionado com sucesso!";
+        this.erro = '';
+        this.carregando = false;
+        // Limpa a notificação depois de 3 segundos
+        setTimeout(() => this.sucesso = '', 3000);
+        // Reseta o formulário
+        this.novoLivro = { titulo: '', autor: '', preco: 0 };
     },
     error: (err) => {
       this.erro = err.message || "Erro ao adicionar livro";
