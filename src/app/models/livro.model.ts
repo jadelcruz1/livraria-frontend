@@ -3,5 +3,5 @@ export interface Livro {
   titulo: string;
   autor: string;
   preco: number;
-  isbn: string;
+  isbn?: string;
 }

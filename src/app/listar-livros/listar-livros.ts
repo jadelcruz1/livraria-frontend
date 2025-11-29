@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Livro } from '../models/livro.model';
 import { LivroService } from '../services/livraria--standalone';
+import { Router } from 'express';
 
 @Component({
   selector: 'app-listar-livros',
@@ -17,7 +18,9 @@ export class ListarLivros implements OnInit {
   erro: string = '';
 
   // inicia o objeto .js
-   constructor(private livroService: LivroService) { }
+   constructor(
+    private livroService: LivroService,  
+  ) { }
 
    // inicia o metodo ou o componente angular
    ngOnInit(): void {
