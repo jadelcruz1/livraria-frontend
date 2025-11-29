@@ -1,1 +1,62 @@
-<p>atualizar-livro works!</p>
+<div *ngIf="carregando">Carregando livros...</div>
+
+<!-- Mensagens -->
+<div *ngIf="erro" class="erro" style="color: red; margin-bottom: 10px;">
+  {{ erro }}
+</div>
+<div *ngIf="sucesso" class="sucesso" style="color: green; margin-bottom: 10px;">
+  {{ sucesso }}
+</div>
+
+<h2> Atualizar lista de Livros</h2>
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Selecionar</th>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Preço</th>
+      <th>ISBN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let livro of livros">
+      <td>
+        <input 
+          type="checkbox" 
+          [checked]="livroSelecionado?.id === livro.id" 
+          (change)="selecionarLivroCheckbox($event.target.checked, livro)" />
+      </td>
+      <td>{{ livro.titulo }}</td>
+      <td>{{ livro.autor }}</td>
+      <td>R$ {{ livro.preco | number:'1.2-2' }}</td>
+      <td>{{ livro.isbn }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="livroSelecionado" style="margin-top: 20px;">
+  <h3>Editando: {{ livroSelecionado.titulo }}</h3>
+
+  <label>
+    Título: 
+    <input [(ngModel)]="livroSelecionado.titulo" placeholder="Título do livro" />
+  </label>
+  <br><br>
+
+  <label>
+    Autor: 
+    <input [(ngModel)]="livroSelecionado.autor" placeholder="Autor" />
+  </label>
+  <br><br>
+
+  <label>
+    Preço: 
+    <input type="number" [(ngModel)]="livroSelecionado.preco" placeholder="Preço" />
+  </label>
+  <br><br>
+  <br><br>
+
+  <button (click)="atualizarLivro()">Atualizar Livro</button>
+  <button (click)="livroSelecionado = undefined" style="margin-left: 10px;">Cancelar</button>
+</div>
