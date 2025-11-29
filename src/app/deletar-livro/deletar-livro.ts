@@ -41,25 +41,30 @@ export class DeletarLivro implements OnInit {
     });
   }
 
-  deletarLivro(): void {
-    if (!this.livroSelecionadoId) {
-      alert('Selecione um livro para deletar.');
-      return;
-    }
-
-    if (!confirm('Tem certeza que deseja deletar este livro?')) return;
-
-    this.livroService.deletar(this.livroSelecionadoId).subscribe({
-      next: () => {
-        alert('Livro deletado com sucesso!');
-        this.livroSelecionadoId = 0;
-        this.carregarLivros(); // atualiza a lista
-      },
-      error: (err) => {
-        alert('Erro ao deletar livro: ' + (err.message || err));
-      }
-    });
+ deletarLivro(): void {
+  if (!this.livroSelecionadoId) {
+    alert('Selecione um livro para deletar.');
+    return;
   }
+
+  if (!confirm('Tem certeza que deseja deletar este livro?')) return;
+
+  this.livroService.deletar(this.livroSelecionadoId).subscribe({
+    next: () => {
+      alert('Livro deletado com sucesso!');
+
+     // Recarrega a lista do servidor imediatamente
+      this.carregarLivros();
+
+      // Reseta a seleção
+      this.livroSelecionadoId = 0;
+    },
+    error: (err) => {
+      alert('Erro ao deletar livro: ' + (err.message || err));
+    }
+  });
+}
+
  /* cancelar(): void {
   this.router.navigate(['/listar']);
 }*/
